@@ -16,9 +16,9 @@ export function RecipeList( {recipes} ){
 function Recipe({name, img, ingredients, description, directions}){
   return (
     <div>
-      <p>{name}</p>
-			<p>{ingredients}</p>
-			<p>{directions}</p>
+      <p>Name: {name}</p>
+			<p>Ingredients: {ingredients}</p>
+			<p>Directions: {directions}</p>
       <img height={200} src={img} alt={description} />
     </div>
   )
