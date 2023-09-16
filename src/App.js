@@ -4,24 +4,54 @@ import { Link } from "react-router-dom";
 import {useState, useEffect, useRef} from 'react';
 import { RecipeList } from './recipes';
 
+
+
 export function AddRecipe(){
+
+
   const txtName = useRef();
   const txtDesc = useRef();
   const txtIngred = useRef();
   const txtDirect = useRef();
+  const recipeImg = useRef();
 
   const submit = (e) => {
     e.preventDefault();
+    /*
+    const fs = require('fs');
+    const data = fs.readFileSync('allRecipes.json');
+    const jsonData = JSON.parse(data);*/
+
     const name = txtName.current.value;
     const desc = txtDesc.current.value;
-    const Ingred = txtIngred.current.value;
+    const ingred = txtIngred.current.value;
     const direct = txtDirect.current.value;
-    alert(`${name} has been added to recipes.`)
+    const pic = recipeImg.current.value;
+
+    let recipeData = {
+      name: {name}, 
+      ingredients: {ingred}, 
+      directions: {direct}, 
+      description: {desc}, 
+      img: {pic} 
+    };
+    /*
+    jsonData.push(recipeData);
+    const jsonString = JSON.stringify(jsonData);
+
+    fs.writeFileSync('allRecipes.json', jsonString, 'utf-8', (err) => {
+      if (err) throw err;
+      console.log(`${name} added to file`)
+    });*/
+
+
+
+    alert(`${name} has been added to recipes.`);
     txtName.current.value = "";
     txtDesc.current.value = "";
     txtIngred.current.value = "";
     txtDirect.current.value = "";
-
+    recipeImg.current.value = "";
   };
 
   return (
@@ -51,6 +81,11 @@ export function AddRecipe(){
           type="text"
           placeholder="Recipe directions..."
         />
+        <input
+          ref={recipeImg}
+          type="file"
+          placeholder="Picture of recipe..."
+        />
         <button>Add Recipe</button>
       </form>
     </div>
@@ -60,28 +95,19 @@ export function AddRecipe(){
 
 export function App() {
 
-  let recipeData = [
-
-    {name: "Banana Loaf", 
-    ingredients: "Bananas and stuff", 
-    directions: "Mix, bake", 
-    description: "Delicious Banana Loaf", 
-    img: "./images/banana_loaf.jpg"}, 
-                    
-    {name: "Lasagna", 
-    ingredients: "", 
-    directions: "", 
-    description: "", 
-    img: "./images/"}
-  
-  ];
-
   const [recipes, setRecipes] = useState(null);
+  const fetchJson = () => {
+    fetch('./allRecipes.json')
+    .then(response => {
+      return response.json();
+    }).then(setRecipes);
+  }
+  
+  useEffect(() => {
+    fetchJson()
+  }, [])
 
-  useEffect( () => {
-    setRecipes(recipeData)
-  }, []);
-
+  console.log({recipes});
   if (recipes == null) return;
 
   return (
