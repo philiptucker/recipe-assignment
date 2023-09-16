@@ -1,9 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
+import { link } from "react-router-dom";
 import {useState, useEffect, useRef} from 'react';
 import { RecipeList } from './recipes';
 
-function App() {
+export function AddRecipe(){
+  return (
+    <div>
+      <h1>Add a recipe!</h1>
+    </div>
+  );
+}
+
+
+export function App() {
 
   let recipeData = [
 
@@ -36,5 +46,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
