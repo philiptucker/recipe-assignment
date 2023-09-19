@@ -1,4 +1,5 @@
 
+
 export function RecipeList( {recipes} ){
   return (
     recipes.map((recipe, i) => {
@@ -13,6 +14,7 @@ export function RecipeList( {recipes} ){
   )
 }
 
+
 function Recipe({name, img, ingredients, description, directions}){
   return (
     <div>
@@ -21,6 +23,7 @@ function Recipe({name, img, ingredients, description, directions}){
 			<p><b>Ingredients:</b> {ingredients}</p>
 			<p><b>Directions:</b> {directions}</p>
       <img height={200} src={img} alt={description} />
+      <button>Remove Recipe</button>
       <p><b>----------------------------------------------------------------</b></p>
     </div>
   )

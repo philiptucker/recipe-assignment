@@ -5,7 +5,6 @@ import {useState, useEffect, useRef} from 'react';
 import { RecipeList } from './recipes';
 
 
-
 export function AddRecipe(){
 
 
@@ -17,10 +16,7 @@ export function AddRecipe(){
 
   const submit = (e) => {
     e.preventDefault();
-    /*
-    const fs = require('fs');
-    const data = fs.readFileSync('allRecipes.json');
-    const jsonData = JSON.parse(data);*/
+    
 
     const name = txtName.current.value;
     const desc = txtDesc.current.value;
@@ -29,24 +25,25 @@ export function AddRecipe(){
     const pic = recipeImg.current.value;
 
     let recipeData = {
-      name: {name}, 
-      ingredients: {ingred}, 
-      directions: {direct}, 
-      description: {desc}, 
-      img: {pic} 
+      name: txtDesc.current.value, 
+      ingredients: txtIngred.current.value, 
+      directions: txtDirect.current.value, 
+      description: txtDesc.current.value, 
+      img: recipeImg.current.value 
     };
-    /*
-    jsonData.push(recipeData);
-    const jsonString = JSON.stringify(jsonData);
-
-    fs.writeFileSync('allRecipes.json', jsonString, 'utf-8', (err) => {
-      if (err) throw err;
-      console.log(`${name} added to file`)
-    });*/
 
 
-
-    alert(`${name} has been added to recipes.`);
+    if (name!="" && desc!="" && ingred!="" && direct!="" && pic!=""){
+      let newRecipeList = JSON.parse(localStorage.getItem("storedRecipes"));
+      newRecipeList.push(recipeData);
+      console.log(newRecipeList);
+      localStorage.setItem("storedRecipes", JSON.stringify(newRecipeList));
+      alert(`${name} has been added to recipes.`);
+    } else{
+      alert(`You must fill in all forms.`);
+    }
+  
+    console.log(recipeData);
     txtName.current.value = "";
     txtDesc.current.value = "";
     txtIngred.current.value = "";
@@ -81,17 +78,16 @@ export function AddRecipe(){
           type="text"
           placeholder="Recipe directions..."
         />
-        <input
-          ref={recipeImg}
-          type="file"
-          placeholder="Picture of recipe..."
-        />
+        <select ref={recipeImg}>
+          <option value="" disabled selected>Select an Image</option>
+          <option value="./images/banana_loaf.jpg">Banana Loaf</option>
+          <option value="./images/Food.jpg">Other Food</option>
+        </select>
         <button>Add Recipe</button>
       </form>
     </div>
   );
 }
-
 
 export function App() {
 
@@ -100,16 +96,24 @@ export function App() {
     fetch('./allRecipes.json')
     .then(response => {
       return response.json();
-    }).then(setRecipes);
+    }).then(setRecipes)
+    .catch( e => console.log(e.message));
+    if (localStorage.getItem("storedRecipes")){
+      let newRecipeList = [];
+      newRecipeList = JSON.parse(localStorage.getItem("storedRecipes"));
+      console.log(newRecipeList);
+      setRecipes(newRecipeList);
+      console.log(recipes);
+    }
+      localStorage.setItem("storedRecipes", JSON.stringify(recipes));
   }
-  
+
   useEffect(() => {
-    fetchJson()
+    fetchJson();
   }, [])
-
-  console.log({recipes});
+  
   if (recipes == null) return;
-
+  console.log(recipes);
   return (
     <div>
       <nav>
