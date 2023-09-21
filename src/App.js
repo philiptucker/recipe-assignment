@@ -2,6 +2,8 @@ import './App.css';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { RecipeList } from './recipes';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Stack from 'react-bootstrap/Stack'
 
 
 export function App() {
@@ -29,8 +31,10 @@ export function App() {
       <nav>
         <Link to="/add">AddRecipe</Link>
       </nav>
-      <h1>Recipe Website</h1>
-      <RecipeList recipes={[...recipes, ...newRecipeList]}/>
+      <h1 class="text-center">Recipe Website</h1>
+      <Stack  gap={3}>
+        <RecipeList recipes={[...recipes, ...newRecipeList]}/>
+      </Stack>
     </div>
   );
 }

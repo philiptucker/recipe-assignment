@@ -1,4 +1,7 @@
-
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export function RecipeList( {recipes} ){
   console.log(recipes);
@@ -18,18 +21,37 @@ export function RecipeList( {recipes} ){
 
 const removeRecipe = (id) => document.getElementById(id).remove();
 
-
 function Recipe({name, img, ingredients, description, directions, index}){
-
   return (
-    <div id={index}>
-      <p><b>Name:</b> {name}</p>
-      <p><b>Description:</b> {description}</p>
-			<p><b>Ingredients:</b> {ingredients}</p>
-			<p><b>Directions:</b> {directions}</p>
-      <img height={200} src={img} alt={description} />
-      <button onClick={() => removeRecipe(index)}>Remove Recipe</button>
-      <p><b>----------------------------------------------------------------</b></p>
+    <Container>
+    <div id={index} left="50%">
+      <style>
+        {`
+        .btn-flat {
+          background-color: indigo;
+          color: white;
+          position: relative;
+          left: 50%;
+        }
+        .btn-xxl {
+          padding: 1rem 1.5rem;
+          font-size: 1.5rem;
+        }
+        `}
+      </style>
+      <Row>
+        <Col><h2>{name}</h2><p class="lead"><b>Description:</b> {description}</p></Col>
+        <Col><img height={200} src={img} alt={description} /></Col>
+      </Row>
+      <Row>
+			<Col><p><b>Ingredients:</b> {ingredients}</p></Col>
+			<Col><p><b>Directions:</b> {directions}</p></Col>
+      </Row>
+      
+      <br/>
+      <Button variant='flat text' size='xxl' onClick={() => removeRecipe(index)}>Remove Recipe</Button>
+      <hr/>
     </div>
+    </Container>
   )
 }
