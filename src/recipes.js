@@ -16,7 +16,7 @@ export function RecipeList( {recipes} ){
   )
 }
 
-const removeRecipe = (id) => document.getElementById(`${id}`).remove();
+const removeRecipe = (id) => document.getElementById(id).remove();
 
 
 function Recipe({name, img, ingredients, description, directions, index}){
