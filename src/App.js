@@ -6,8 +6,6 @@ import { RecipeList } from './recipes';
 
 
 export function AddRecipe(){
-
-
   const txtName = useRef();
   const txtDesc = useRef();
   const txtIngred = useRef();
@@ -34,9 +32,12 @@ export function AddRecipe(){
 
 
     if (name!="" && desc!="" && ingred!="" && direct!="" && pic!=""){
-      let newRecipeList = JSON.parse(localStorage.getItem("storedRecipes"));
+      let newRecipeList = []
+      if (localStorage.getItem("storedRecipes")){
+        newRecipeList = JSON.parse(localStorage.getItem("storedRecipes"));
+      }
+     
       newRecipeList.push(recipeData);
-      console.log(newRecipeList);
       localStorage.setItem("storedRecipes", JSON.stringify(newRecipeList));
       alert(`${name} has been added to recipes.`);
     } else{
@@ -91,28 +92,23 @@ export function AddRecipe(){
 
 export function App() {
 
-  const [recipes, setRecipes] = useState(null);
-  const fetchJson = () => {
+  const [recipes, setRecipes] = useState([]);
+  let newRecipeList = [];
+  newRecipeList = JSON.parse(localStorage.getItem("storedRecipes"));
+
+  function fetchJson (){
     fetch('./allRecipes.json')
-    .then(response => {
-      return response.json();
-    }).then(setRecipes)
-    .catch( e => console.log(e.message));
-    if (localStorage.getItem("storedRecipes")){
-      let newRecipeList = [];
-      newRecipeList = JSON.parse(localStorage.getItem("storedRecipes"));
-      console.log(newRecipeList);
-      setRecipes(newRecipeList);
-      console.log(recipes);
-    }
-      localStorage.setItem("storedRecipes", JSON.stringify(recipes));
+      .then(response => response.json())
+      .then(setRecipes)
+      .catch( e => console.log(e.message));
   }
 
   useEffect(() => {
     fetchJson();
-  }, [])
-  
+  }, []);
+
   if (recipes == null) return;
+  console.log(newRecipeList);
   console.log(recipes);
   return (
     <div>
@@ -120,7 +116,7 @@ export function App() {
         <Link to="/add">AddRecipe</Link>
       </nav>
       <h1>Recipe Website</h1>
-      <RecipeList recipes={recipes}/>
+      <RecipeList recipes={[...recipes, ...newRecipeList]}/>
     </div>
   );
 }
