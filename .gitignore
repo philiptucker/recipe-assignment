@@ -1,9 +1,13 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
+/BackEnd/node_modules
+/BackEnd/mongo-db-data
+/BackEnd/.pnp
+/BackEnd.pnp.js
+/FrontEnd/node_modules
+/FrontEnd/.pnp
+/FrontEnd.pnp.js
 
 # testing
 /coverage

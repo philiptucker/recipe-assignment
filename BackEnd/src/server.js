@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import { MongoClient } from 'mongodb';
 
+const client = 'mongodb://127.0.0.1:27017'
 // cd recipe-assignment/backend
 // npm run dev
 
