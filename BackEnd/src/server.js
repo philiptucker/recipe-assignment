@@ -4,6 +4,20 @@ import bodyParser from 'body-parser';
 // cd recipe-assignment/backend
 // npm run dev
 
+/**[
+  {name: "Banana Loaf", 
+  ingredients: "Bananas and stuff", 
+  directions: "Mix, bake", 
+  description: "Delicious banana loaf", 
+  img: "./images/banana_loaf.jpg"}, 
+                  
+  {name: "Lasagna", 
+  ingredients: "Pasta, sauce, cheese", 
+  directions: "layer, bake", 
+  description: "Tasty lasagna", 
+  img: "./images/Food.jpg"}
+] */
+
 const app = express();
 app.use(express.json());
 
