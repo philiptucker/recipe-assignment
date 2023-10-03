@@ -2,38 +2,49 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { MongoClient } from 'mongodb';
 
-const client = 'mongodb://127.0.0.1:27017'
-// cd recipe-assignment/backend
-// npm run dev
-
-/**[
-  {name: "Banana Loaf", 
-  ingredients: "Bananas and stuff", 
-  directions: "Mix, bake", 
-  description: "Delicious banana loaf", 
-  img: "./images/banana_loaf.jpg"}, 
-                  
-  {name: "Lasagna", 
-  ingredients: "Pasta, sauce, cheese", 
-  directions: "layer, bake", 
-  description: "Tasty lasagna", 
-  img: "./images/Food.jpg"}
-] */
-
+const clientData = 'mongodb://127.0.0.1:27017'
 const app = express();
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false}));
+const port = 4000;
 
-app.post('/hello', (req, res) =>{
-    console.log(req.body);
-    res.send(`Hello ${req.body.name} !`);
-});
+app.get('/api/recipes', async (req, res) => {
+    const client = new MongoClient(clientData);
+    await client.connect();
+    const db = client.db("recipe-db");
 
-app.get('/hello/:name', (req, res) => {
-    const {name} = req.params;
-    res.send(`Hello ${name}!?!`);
-});
+    const data = await db.collection("recipes").find({}).toArray();
+    res.json(data);
+})
 
-app.listen(8000, () => {
-    console.log('Server is listening on port 8000');
+app.post('/api/removeRecipe', async (req, res) => {
+    const client = new MongoClient(clientData);
+    await client.connect();
+    const db = client.db("recipe-db");
+
+    const removedRecipe = await db.collection("recipes").deleteOne({"name":req.body.recipename});
+    console.log(removedRecipe.deletedCount);
+    const data = await db.collection("recipes").find({}).toArray();
+    res.json(data);
+})
+
+app.post('/api/addRecipe', async (req, res) => {
+    const client = new MongoClient(clientData);
+    await client.connect();
+    const db = client.db("recipe-db");
+
+    const newRecipe = req.body.recipeObj;
+
+    await db.collection("recipes").insertOne({
+        "name":req.body.name,
+        "ingredients":req.body.ingredients, 
+        "directions":req.body.directions,
+        "description":req.body.description,
+        "img":req.body.img
+    });
+    res.sendStatus(200);
+})
+
+app.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
 });
 

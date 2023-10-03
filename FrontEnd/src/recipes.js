@@ -3,8 +3,13 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-export function RecipeList( {recipes} ){
-  console.log(recipes);
+export function RecipeList( {recipes, setRecipes} ){
+  if (!Array.isArray(recipes)) {
+    console.log(recipes);
+    let adjustRecipe = recipes;
+    recipes = [];
+    recipes = JSON.parse(adjustRecipe);
+  }
   return (
     recipes.map((recipe, i) => {
       return <Recipe 
@@ -14,17 +19,36 @@ export function RecipeList( {recipes} ){
 				directions={recipe.directions}
 				description={recipe.description}
         index = {i}
+        setRecipes = {setRecipes}
 			/>
     })
   )
 }
 
-const removeRecipe = (id) => document.getElementById(id).remove();
+const removeRecipe = (name, {setRecipes}) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-function Recipe({name, img, ingredients, description, directions, index}){
+  var urlencoded = new URLSearchParams();
+  urlencoded.append("recipename", name);
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: 'follow'
+  };
+
+  fetch("/api/removeRecipe", requestOptions)
+  .then(response => response.text())
+  .then( setRecipes )
+  .catch(error => console.log('error', error));
+}
+
+function Recipe({name, img, ingredients, description, directions, index, setRecipes}){
   return (
     <Container>
-    <div id={index} left="50%">
+    <div key={index} left="50%">
       <style>
         {`
         .btn-flat {
@@ -47,9 +71,8 @@ function Recipe({name, img, ingredients, description, directions, index}){
 			<Col><p><b>Ingredients:</b> {ingredients}</p></Col>
 			<Col><p><b>Directions:</b> {directions}</p></Col>
       </Row>
-      
       <br/>
-      <Button variant='flat text' size='xxl' onClick={() => removeRecipe(index)}>Remove Recipe</Button>
+      <Button variant='flat text' size='xxl' onClick={() => removeRecipe(name, {setRecipes})}>Remove Recipe</Button>
       <hr/>
     </div>
     </Container>

@@ -8,12 +8,12 @@ import Stack from 'react-bootstrap/Stack'
 
 export function App() {
 
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState(null);
   let newRecipeList = [];
   newRecipeList = JSON.parse(localStorage.getItem("storedRecipes"));
 
-  function fetchJson (){
-    fetch('./allRecipes.json')
+  const fetchJson = async () =>{
+    fetch('/api/recipes')
       .then(response => response.json())
       .then(setRecipes)
       .catch( e => console.log(e.message));
@@ -24,8 +24,6 @@ export function App() {
   }, []);
 
   if (recipes == null) return;
-  console.log(newRecipeList);
-  console.log(recipes);
   return (
     <div>
       <nav>
@@ -33,7 +31,7 @@ export function App() {
       </nav>
       <h1 class="text-center">Recipe Website</h1>
       <Stack  gap={3}>
-        <RecipeList recipes={[...recipes, ...newRecipeList]}/>
+        <RecipeList recipes={recipes} setRecipes={setRecipes}/>
       </Stack>
     </div>
   );

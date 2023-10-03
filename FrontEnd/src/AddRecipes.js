@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useRef } from 'react';
 
 
-
 export function AddRecipe(){
   const txtName = useRef();
   const txtDesc = useRef();
@@ -14,7 +13,6 @@ export function AddRecipe(){
   const submit = (e) => {
     e.preventDefault();
     
-
     const name = txtName.current.value;
     const desc = txtDesc.current.value;
     const ingred = txtIngred.current.value;
@@ -29,8 +27,30 @@ export function AddRecipe(){
       img: recipeImg.current.value 
     };
 
-
     if (name!="" && desc!="" && ingred!="" && direct!="" && pic!=""){
+      
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+      
+      var urlencoded = new URLSearchParams();
+      urlencoded.append("name", name);
+      urlencoded.append("ingredients", ingred);
+      urlencoded.append("directions", direct);
+      urlencoded.append("description", desc);
+      urlencoded.append("img", pic);
+      
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+      };
+      
+      fetch("http://localhost:4000/api/addRecipe", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(recipeData))
+        .catch(error => console.log('error', error));
+
       let newRecipeList = []
       if (localStorage.getItem("storedRecipes")){
         newRecipeList = JSON.parse(localStorage.getItem("storedRecipes"));
