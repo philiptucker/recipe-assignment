@@ -4,6 +4,15 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 export function RecipeList( {recipes, setRecipes} ){
+
+  /**
+   * below if is to counter a weird error where after the remove button is pressed, 
+   * when it uses setRecipes it chnage the array into a string (you can see in the 
+   * console.log), so it checks if its not an array, and then converts it back.
+   * If you know why it does this to avoid the error in the future, please let me
+   * know.
+   */
+
   if (!Array.isArray(recipes)) {
     console.log(recipes);
     let adjustRecipe = recipes;

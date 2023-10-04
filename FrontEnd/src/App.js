@@ -9,8 +9,6 @@ import Stack from 'react-bootstrap/Stack'
 export function App() {
 
   const [recipes, setRecipes] = useState(null);
-  let newRecipeList = [];
-  newRecipeList = JSON.parse(localStorage.getItem("storedRecipes"));
 
   const fetchJson = async () =>{
     fetch('/api/recipes')

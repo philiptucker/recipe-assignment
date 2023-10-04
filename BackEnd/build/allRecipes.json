@@ -1,0 +1,13 @@
+[
+  {"name": "Banana Loaf", 
+  "ingredients": "Bananas and stuff", 
+  "directions": "Mix, bake", 
+  "description": "Delicious Banana Loaf", 
+  "img": "./images/banana_loaf.jpg"}, 
+                  
+  {"name": "Lasagna", 
+  "ingredients": "Pasta, sauce, cheese", 
+  "directions": "layer, bake", 
+  "description": "Tasta Lasagna", 
+  "img": "./images/Food.jpg"}
+]
