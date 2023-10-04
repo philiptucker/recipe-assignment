@@ -56,11 +56,7 @@ app.post('/api/addRecipe', upload.single('file'), async (req, res) => {
     });
     await db.collection("recipes").find({}).toArray();
 });
-/*
-app.post('/upload', upload.single("file"), (req, res) => {
-    console.log(file);
-    res.json({ message: 'file uploaded succesffully!!'});
-});*/
+
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);

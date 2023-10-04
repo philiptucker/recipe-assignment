@@ -1,10 +1,8 @@
 import './App.css';
 import { Link } from "react-router-dom";
-import { useRef } from 'react';
 
 
 export function AddRecipe(){
- 
   return (
     <div>
       <nav>
@@ -32,12 +30,11 @@ export function AddRecipe(){
           type="text"
           placeholder="Recipe directions..."
         />
-          <input 
-            type="file" 
-            name="file"
-            required
-          />
-        
+        <input 
+          type="file" 
+          name="file"
+          required
+        />  
         <button type='submit'>Add Recipe</button>
       </form>
     </div>
